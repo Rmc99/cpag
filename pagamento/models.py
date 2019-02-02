@@ -18,6 +18,10 @@ class Pagamento(models.Models):
         (11, "Novembro"),
         (12, "Dezembro"),
     )
+    ano = models.IntegerField(null=False, verbose_name="Ano de Pagamento", blank=True, help_text="Ex: 2019")
+    mes = models.IntegerField(null=False, verbose_name="Mês de Pagamento", blank=True)
+    pessoa = models.ForeignKey(Pessoa, related_name="Nome Completo", on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, related_name="Categoria", on_delete=models.CASCADE)
     funcao = models.CharField(max_length=100, null=False, verbose_name="Função", blank=True)
     qtd_horas = models.IntegerField(null=False, verbose_name="Quantidade de Horas no Mês", blank=True)
     valor_hora = models.DecimalField(max_digits=5, decimal_places=2, null=False, verbose_name="Valor da Hora")
@@ -36,5 +40,3 @@ class Pagamento(models.Models):
                                               verbose_name="Valor Líquido")
     valor_patronal = models.DecimalField(max_digits=5, decimal_places=2, null=False,
                                               verbose_name="Patronal")
-    ano = models.IntegerField(null=False, verbose_name="Ano de Pagamento", blank=True, help_text="Ex: 2019")
-    mes = models.IntegerField(null=False, verbose_name="Mês de Pagamento", blank=True)
