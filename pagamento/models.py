@@ -40,3 +40,5 @@ class Pagamento(models.Models):
                                               verbose_name="Valor Líquido")
     valor_patronal = models.DecimalField(max_digits=5, decimal_places=2, null=False,
                                               verbose_name="Patronal")
+    dta_criacao = models.DateTimeField(editable=False, auto_now_add=True)
+    dta_atualizacao = models.DateTimeField(editable=False, auto_now=True)

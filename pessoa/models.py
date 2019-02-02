@@ -2,6 +2,7 @@ from django.db import models
 
 class Pessoa(models.Models):
     nome = models.CharField(max_length=150, null=False, verbose_name="Nome Completo", blank=True)
+    email = models.EmailField(max_length=150, null=True, verbose_name="E-Mail", blank=True)
     cpf = models.CharField(max_length=14, null=False, verbose_name="CPF", blank=True)
     pis = models.CharField(max_length=25, null=False, verbose_name="PIS", blank=True)
     num_conta = models.IntegerField(null=False, verbose_name="Conta", blank=True)
