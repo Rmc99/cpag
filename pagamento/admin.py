@@ -1,6 +1,10 @@
 from django.contrib import admin
 from .models import Pagamento, Categoria
 
-admin.site.register(Pagamento)
+class PagamentoAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['pessoa']
+
+admin.site.register(Pagamento, PagamentoAdmin)
 admin.site.register(Categoria)
+
 

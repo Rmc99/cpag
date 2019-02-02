@@ -1,5 +1,8 @@
 from django.contrib import admin
 from .models import Pessoa
 
-admin.site.register(Pessoa)
 
+class PessoaAdmin(admin.ModelAdmin):
+    search_fields = ('nome', 'cpf')
+
+admin.site.register(Pessoa, PessoaAdmin)
