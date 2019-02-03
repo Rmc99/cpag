@@ -6,5 +6,9 @@ class PessoaAdmin(admin.ModelAdmin):
     search_fields = ('nome', 'cpf')
     list_display = ('nome','email','cpf','pis','num_conta','num_agencia','num_operacao','num_banco')
 
-
+    class Media:
+        js = (
+            'js/jquery-3.3.1.min.js',
+            'js/jquery.mask.js',
+        )
 admin.site.register(Pessoa, PessoaAdmin)
