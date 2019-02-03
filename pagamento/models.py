@@ -58,3 +58,4 @@ class Pagamento(models.Model):
 
     class Meta:
         verbose_name_plural = 'Pagamento'
+        ordering = ['-ano','-mes','-categoria','-funcao']
