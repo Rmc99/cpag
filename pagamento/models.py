@@ -52,7 +52,6 @@ class Pagamento(models.Model):
     dta_criacao = models.DateTimeField(editable=False, auto_now_add=True)
     dta_atualizacao = models.DateTimeField(editable=False, auto_now=True)
 
-## TODO Não tá Funcionando
     def __str__(self):
         return str(self.ano)
 
