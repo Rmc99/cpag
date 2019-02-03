@@ -53,8 +53,8 @@ class Pagamento(models.Model):
     dta_atualizacao = models.DateTimeField(editable=False, auto_now=True)
 
 ## TODO Não tá Funcionando
-    def __int__(self):
-        return self.ano
+    def __str__(self):
+        return str(self.ano)
 
     class Meta:
         verbose_name_plural = 'Pagamento'
