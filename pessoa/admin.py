@@ -8,6 +8,8 @@ class PessoaAdmin(admin.ModelAdmin):
     class Media:
         js = (
             'js/pessoa/jquery-3.3.1.min.js',
-            'js/pessoa/jquery-mask.js',
+            'js/pessoa/jquery.mask.min.js',
+            'js/pessoa/jquery-mymask.js',
+
         )
 admin.site.register(Pessoa, PessoaAdmin)
