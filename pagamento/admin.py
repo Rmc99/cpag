@@ -16,6 +16,7 @@ class PagamentoAdmin(admin.ModelAdmin):
         js = ('js/pagamento/jquery-3.3.1.min.js',)
         js = ('js/pagamento/jquery.mask.min.js',)
         js = ('js/pagamento/jquery-calculo.js',)
+        js = ('js/pagamento/jquery-mymask-pagamento.js',)
 
     formfield_overrides = {
         models.IntegerField: {'widget': TextInput(attrs={'autocomplete': 'off', 'class': 'vIntegerField'})},
