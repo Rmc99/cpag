@@ -1,5 +1,4 @@
-$(document).ready(
-    function () {
+$(document).ready(function () {
         var $id_cpf = $("#id_cpf");
         $id_cpf.mask('000.000.000-00', {reverse: true});
 

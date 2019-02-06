@@ -1,5 +1,4 @@
-$(document).ready(
-    function () {
+$(document).ready(function () {
         var $id_ano = $("#id_ano");
         $id_ano.mask('0000', {reverse: true});
 
@@ -11,5 +10,5 @@ $(document).ready(
 
         var $id_qtd_dependente_irpf = $("#id_qtd_dependente_irpf");
         $id_qtd_dependente_irpf.mask('00', {reverse: true});
-   }
+    }
 );
