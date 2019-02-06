@@ -39,17 +39,18 @@ $(document).ready(function() {
 
 // Calculos para Colaborador/Professor Interno e funcionários do IFMA e COLUN
 // ct = categoria; st = status servidor; vl = valor liquido
-    $("#id_status_servidor, #id_categoria").on('change', function() {
+//    $("#id_status_servidor, #id_categoria").on('change', function() {
+    $("#id_categoria").on('change', function() {
         var ct = $("#id_categoria option:selected").val();
-        var st = $("#id_status_servidor option:selected").val();
-        if (ct == 1 && st == "True" || ct == 1 && st == "True") {
+//        var st = $("#id_status_servidor option:selected").val();
+//        if (ct == 1 && st == "True" || ct == 1 && st == "True") {
+        if (ct == 1 || ct == 3) {
             $('#id_valor_base_desc_ins').val(0);
             $('#id_valor_base_desc_iss').val(0);
             $('#id_valor_deducao_irpf').val(0);
             $('#id_valor_pos_deducao_irpf').val(0);
             $('#id_valor_irpf').val(0);
             $('#id_valor_patronal').val(0);
-            $('#id_valor_liquido').val('#id_valor_bruto');
         }
         else {
                 $('#id_valor_deducao_irpf').val(null);
@@ -62,4 +63,3 @@ $(document).ready(function() {
         }
     });
 });
-
