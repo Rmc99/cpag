@@ -8,7 +8,7 @@ class PagamentoAdmin(admin.ModelAdmin):
     list_display = ('ano', 'mes', 'pessoa', 'categoria', 'funcao', 'valor_bruto', 'valor_liquido')
     search_fields = ['ano', 'mes', 'categoria', 'funcao', 'pessoa__nome']
     fields = ['ano', 'mes', 'pessoa', 'categoria', 'funcao', 'qtd_horas',
-              'valor_hora', 'qtd_dependente_irpf', 'valor_bruto', 'valor_base_desc_inss',
+              'valor_hora', 'valor_pensao', 'status_servidor', 'qtd_dependente_irpf', 'valor_bruto', 'valor_base_desc_inss',
               'valor_base_desc_iss', 'valor_deducao_irpf',
               'valor_pos_deducao_irpf', 'valor_irpf', 'valor_liquido', 'valor_patronal']
 

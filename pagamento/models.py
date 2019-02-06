@@ -2,6 +2,10 @@ from django.db import models
 from pessoa.models import Pessoa
 
 class Pagamento(models.Model):
+    SERVIDOR_CHOICE = (
+        (True, "SIM"),
+        (False, "NÃO"),
+    )
     MES_CHOICES = (
         (1, "Janeiro"),
         (2, "Fevereiro"),
@@ -34,6 +38,8 @@ class Pagamento(models.Model):
     funcao = models.SmallIntegerField(null=False, choices=FUNCAO_CHOICES, verbose_name="Função")
     qtd_horas = models.SmallIntegerField(null=False, verbose_name="Quantidade de Horas no Mês", blank=True)
     valor_hora = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Hora")
+    status_servidor = models.BooleanField(null=False, choices=SERVIDOR_CHOICE, verbose_name="É servidor do IFMA/COLUN?")
+    valor_pensao = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Pensão")
     valor_bruto = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Bruto")
     valor_base_desc_inss = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Base Desconto INSS")
     valor_base_desc_iss = models.DecimalField(max_digits=7, decimal_places=2, null=False,
@@ -57,4 +63,4 @@ class Pagamento(models.Model):
 
     class Meta:
         verbose_name_plural = 'Pagamento'
-        ordering = ['-ano','-mes','-categoria','-funcao']
+        ordering = ['-ano', '-mes', '-categoria', '-funcao']
