@@ -28,14 +28,24 @@ $(document).ready(function() {
         var qdep = parseInt($('#id_qtd_dependente_irpf').val()) || 0;
         var ct = $("#id_categoria option:selected").val();
 
-        // calcula valor bruto
+        // calculo valor bruto
         var vb = qh * vh;
-        // calcula iss 5%
-        var iss = vb * 0.05;
-        // calcula inss 11%
-        var inss = vb * 0.11;
-        // calcula patronal 20%
-        var ptnal = vb * 0.20;
+        // calculo iss 5%
+        var iss_tmp = vb * 0.05;
+        var iss = parseFloat(iss_tmp.toFixed(2));
+        // calculo inss 11%
+        var inss_tmp = vb * 0.11;
+        var inss = parseFloat(inss_tmp.toFixed(2));
+        // calculo patronal 20%
+        var ptnal_tmp = vb * 0.20;
+        var ptnal = parseFloat(ptnal_tmp.toFixed(2));
+        // calculo deducao irpf
+        var dirpf_tmp = inss+(qdep*189.59);
+        var dirpf = parseFloat(dirpf_tmp.toFixed(2));
+        // calculo pos deducao irpf
+        var pos_irpf = vb-inss;
+        // calculo valor liquido
+        var vl = vb-inss-iss;
 
 // Calculos para Colaborador/Professor Interno do IFMA e COLUN
         if (ct == 1 || ct == 3) {
@@ -51,10 +61,6 @@ $(document).ready(function() {
 // Calculos para Colaborador/Professor Externo
         else if (vb <= 1903.98){
             var irpf = 0;
-            var dirpf = inss+(qdep*189.59);
-            var pos_irpf = vb-inss;
-            var vl = vb-inss-iss;
-
             $('#id_valor_bruto').val(vb);
             $('#id_valor_inss').val(inss);
             $('#id_valor_iss').val(iss);
@@ -64,15 +70,16 @@ $(document).ready(function() {
             $('#id_valor_patronal').val(ptnal);
             $('#id_valor_liquido').val(vl);
         }
-  /*          else {
-            }
+        else if (vb >= 1903.99 && vb <= 2826.65){
+            aliquota = 0.075;
+            $('#id_valor_bruto').val(vb);
+            $('#id_valor_inss').val(inss);
+            $('#id_valor_iss').val(iss);
+            $('#id_deducao_irpf').val(dirpf);
+            $('#id_valor_pos_deducao_irpf').val(pos_irpf);
+            $('#id_valor_irpf').val(irpf);
+            $('#id_valor_patronal').val(ptnal);
+            $('#id_valor_liquido').val(vl);
         }
-        else if (vb >= 1556.95 && vb <= 2594.92){
-        }
-        else if (vb >= 2594.93 && vb <= 5189.82){
-        }
-         else if (vb > 5189.82){
-        }
-  */
     });
 });
