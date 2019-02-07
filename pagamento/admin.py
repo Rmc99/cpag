@@ -15,8 +15,8 @@ class PagamentoAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Dados do Pagamento:', {'fields': (('ano', 'mes', 'pessoa'), ('categoria', 'funcao', 'qtd_horas'),
          ('valor_hora', 'valor_pensao', 'qtd_dependente_irpf'))}),
-        ('Calculos:', {'fields': (('valor_bruto', 'valor_base_desc_inss',
-              'valor_base_desc_iss'), ('valor_deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf'), ('valor_liquido', 'valor_patronal'))}),
+        ('Calculos:', {'fields': (('valor_bruto', 'valor_inss',
+             'valor_iss'), ('deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf'), ('valor_liquido', 'valor_patronal'))}),
     )
 
     class Media:
