@@ -88,6 +88,7 @@ class PagamentoAdmin(admin.ModelAdmin):
         obj.save()
 #        redirect_url = request.path
 #        return HttpResponseRedirect(redirect_url)
+        self.message_user(request, "Operação Realizada com Sucesso!")
         return redirect("/admin/pagamento/pagamento/")
 
     def response_add(self, request, obj):
@@ -161,6 +162,7 @@ class PagamentoAdmin(admin.ModelAdmin):
         obj.save()
 #        redirect_url = request.path
 #        return HttpResponseRedirect(redirect_url)
+        self.message_user(request, "Operação Realizada com Sucesso!")
         return redirect("/admin/pagamento/pagamento/")
 
     class Media:
