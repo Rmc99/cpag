@@ -18,6 +18,22 @@ class PagamentoAdmin(admin.ModelAdmin):
     )
 
     def response_change(self, request, obj):
+        self.calcular(obj)
+        obj.save()
+        redirect_url = request.path
+        messages.success(request, 'Pagamento Modificado com Sucesso!')
+        return HttpResponseRedirect(redirect_url)
+#        return redirect("/admin/pagamento/pagamento/")
+
+    def response_add(self, request, obj):
+        self.calcular(obj)
+        obj.save()
+        redirect_url = request.path
+        messages.success(request, 'Pagamento Adicionado com Sucesso!')
+        return HttpResponseRedirect(redirect_url)
+#        return redirect("/admin/pagamento/pagamento/")
+
+    def calcular(self, obj):
         tx_iss = Decimal(0.05)
         tx_patronal = Decimal(0.20)
         tx_por_dependente = Decimal(189.59)
@@ -70,6 +86,11 @@ class PagamentoAdmin(admin.ModelAdmin):
         # isento de irpf
         elif (v_base <= 1903.98):
             obj.valor_irpf = 0
+            # inclui mas consultar jorge
+            obj.deducao_irpf = 0
+            obj.valor_irpf = 0
+            obj.valor_pos_deducao_irpf = 0
+            #
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
         # aliquota de 7,5%
         elif (v_base >= 1903.99 and v_base <= 2826.65):
@@ -89,11 +110,7 @@ class PagamentoAdmin(admin.ModelAdmin):
                         obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss) * aliquota_4 - parc_deduzir_4
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
 
-        obj.save()
-        redirect_url = request.path
-        messages.success(request, 'Pagamento Modificado com Sucesso!')
-        return HttpResponseRedirect(redirect_url)
-#        return redirect("/admin/pagamento/pagamento/")
+        return (obj)
 
     class Media:
         js = ('js/pagamento/jquery-3.3.1.min.js',)
