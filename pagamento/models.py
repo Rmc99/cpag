@@ -40,21 +40,21 @@ class Pagamento(models.Model):
     qtd_horas = models.SmallIntegerField(null=False, verbose_name="Quantidade de Horas no Mês")
     valor_hora = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Hora")
     valor_pensao = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Pensão")
-    valor_bruto = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Bruto")
-    valor_inss = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Desconto INSS")
+    valor_bruto = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Bruto", default=0)
+    valor_inss = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Desconto INSS", default=0)
     valor_iss = models.DecimalField(max_digits=7, decimal_places=2, null=False,
-                                              verbose_name="Valor Desconto ISS")
-    qtd_dependente_irpf = models.IntegerField(null=False, verbose_name="Quantidade de Dependentes de IRPF")
+                                              verbose_name="Valor Desconto ISS", default=0)
+    qtd_dependente_irpf = models.IntegerField(null=False, verbose_name="Quantidade de Dependentes de IRPF", default=0)
     deducao_irpf = models.DecimalField(max_digits=7, decimal_places=2, null=False,
-                                              verbose_name="Dedução IRPF")
+                                              verbose_name="Dedução IRPF", default=0)
     valor_pos_deducao_irpf = models.DecimalField(max_digits=7, decimal_places=2, null=False,
-                                              verbose_name="Valor Pós Dedução IRPF")
+                                              verbose_name="Valor Pós Dedução IRPF", default=0)
     valor_irpf = models.DecimalField(max_digits=7, decimal_places=2, null=False,
-                                              verbose_name="IRPF")
+                                              verbose_name="IRPF", default=0)
     valor_liquido = models.DecimalField(max_digits=7, decimal_places=2, null=False,
-                                              verbose_name="Valor Líquido")
+                                              verbose_name="Valor Líquido", default=0)
     valor_patronal = models.DecimalField(max_digits=7, decimal_places=2, null=False,
-                                              verbose_name="Patronal")
+                                              verbose_name="Patronal", default=0)
     dta_criacao = models.DateTimeField(editable=False, auto_now_add=True)
     dta_atualizacao = models.DateTimeField(editable=False, auto_now=True)
 
