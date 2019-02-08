@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from .models import Pagamento
 from django.forms import TextInput
 from django.db import models
@@ -85,8 +86,9 @@ class PagamentoAdmin(admin.ModelAdmin):
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
 
         obj.save()
-        redirect_url = request.path
-        return HttpResponseRedirect(redirect_url)
+#        redirect_url = request.path
+#        return HttpResponseRedirect(redirect_url)
+        return redirect("/admin/pagamento/pagamento/")
 
     def response_add(self, request, obj):
         tx_iss = Decimal(0.05)
@@ -157,8 +159,9 @@ class PagamentoAdmin(admin.ModelAdmin):
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
 
         obj.save()
-        redirect_url = request.path
-        return HttpResponseRedirect(redirect_url)
+#        redirect_url = request.path
+#        return HttpResponseRedirect(redirect_url)
+        return redirect("/admin/pagamento/pagamento/")
 
     class Media:
         js = ('js/pagamento/jquery-3.3.1.min.js',)
@@ -170,3 +173,4 @@ class PagamentoAdmin(admin.ModelAdmin):
 
     }
 admin.site.register(Pagamento, PagamentoAdmin)
+## todo reutilizar metodo que faz os calculos
