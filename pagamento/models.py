@@ -30,13 +30,14 @@ class Pagamento(models.Model):
         (1, "Administrativo"),
         (2, "Supervisor Orientador"),
         (3, "Coordenador"),
+        (4, "Professor"),
     )
-    ano = models.SmallIntegerField(null=False, verbose_name="Ano de Pagamento", blank=True, help_text="Ex: 2019")
+    ano = models.SmallIntegerField(null=False, verbose_name="Ano de Pagamento",help_text="Ex: 2019")
     mes = models.SmallIntegerField(null=False, choices=MES_CHOICES, verbose_name="Mês de Pagamento")
     pessoa = models.ForeignKey(Pessoa, related_name="pessoa", on_delete=models.CASCADE)
     categoria = models.SmallIntegerField(null=False, choices=CATEGORIA_CHOICES, verbose_name="Categoria")
     funcao = models.SmallIntegerField(null=False, choices=FUNCAO_CHOICES, verbose_name="Função")
-    qtd_horas = models.SmallIntegerField(null=False, verbose_name="Quantidade de Horas no Mês", blank=True)
+    qtd_horas = models.SmallIntegerField(null=False, verbose_name="Quantidade de Horas no Mês")
     valor_hora = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Hora")
 #    status_servidor = models.BooleanField(null=False, choices=SERVIDOR_CHOICE, verbose_name="É servidor do IFMA/COLUN?")
     valor_pensao = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Pensão")
@@ -44,7 +45,7 @@ class Pagamento(models.Model):
     valor_inss = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Desconto INSS")
     valor_iss = models.DecimalField(max_digits=7, decimal_places=2, null=False,
                                               verbose_name="Valor Desconto ISS")
-    qtd_dependente_irpf = models.IntegerField(null=False, verbose_name="Quantidade de Dependentes de IRPF", blank=True)
+    qtd_dependente_irpf = models.IntegerField(null=False, verbose_name="Quantidade de Dependentes de IRPF")
     deducao_irpf = models.DecimalField(max_digits=7, decimal_places=2, null=False,
                                               verbose_name="Dedução IRPF")
     valor_pos_deducao_irpf = models.DecimalField(max_digits=7, decimal_places=2, null=False,
