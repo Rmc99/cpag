@@ -22,7 +22,7 @@ class PagamentoAdmin(admin.ModelAdmin):
     class Media:
         js = ('js/pagamento/jquery-3.3.1.min.js',)
         js = ('js/pagamento/jquery.mask.min.js',)
-        js = ('js/pagamento/jquery-calculo.js',)
+#        js = ('js/pagamento/jquery-calculo.js',)
         js = ('js/pagamento/jquery-mymask-pagamento.js',)
 
 
