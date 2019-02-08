@@ -39,7 +39,6 @@ class Pagamento(models.Model):
     funcao = models.SmallIntegerField(null=False, choices=FUNCAO_CHOICES, verbose_name="Função")
     qtd_horas = models.SmallIntegerField(null=False, verbose_name="Quantidade de Horas no Mês")
     valor_hora = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Hora")
-#    status_servidor = models.BooleanField(null=False, choices=SERVIDOR_CHOICE, verbose_name="É servidor do IFMA/COLUN?")
     valor_pensao = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor da Pensão")
     valor_bruto = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Bruto")
     valor_inss = models.DecimalField(max_digits=7, decimal_places=2, null=False, verbose_name="Valor Desconto INSS")

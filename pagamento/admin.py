@@ -5,7 +5,7 @@ from django.db import models
 
 class PagamentoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['pessoa']
-    list_display = ('ano', 'mes', 'pessoa', 'categoria', 'funcao', 'valor_bruto', 'valor_liquido')
+    list_display = ('ano', 'mes', 'pessoa', 'categoria', 'funcao', 'valor_bruto', 'valor_irpf', 'valor_liquido')
     search_fields = ['ano', 'mes', 'categoria', 'funcao', 'pessoa__nome']
     #fields = ['ano', 'mes', 'pessoa', 'categoria', 'funcao', 'qtd_horas',
     #          'valor_hora', 'valor_pensao', 'qtd_dependente_irpf', 'valor_bruto', 'valor_base_desc_inss',
