@@ -4,7 +4,8 @@ from django.shortcuts import redirect
 from .models import Pagamento
 from django.forms import TextInput
 from django.db import models
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
+
 
 class PagamentoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['pessoa']
@@ -16,22 +17,33 @@ class PagamentoAdmin(admin.ModelAdmin):
         ('Calculos:', {'fields': (('valor_bruto', 'valor_inss',
              'valor_iss'), ('deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf'), ('valor_liquido', 'valor_patronal'))}),
     )
+    list_filter = ('ano', 'mes', 'categoria', 'funcao', 'pessoa__nome')
 
     def response_change(self, request, obj):
         self.calcular(obj)
-        obj.save()
-        redirect_url = request.path
-        messages.success(request, 'Pagamento Modificado com Sucesso!')
-        return HttpResponseRedirect(redirect_url)
+        try:
+            obj.save()
+            redirect_url = request.path
+            messages.success(request, 'Pagamento Modificado com Sucesso!')
+            return HttpResponseRedirect(redirect_url)
+        except InvalidOperation:
+            redirect_url = request.path
+            messages.error(request, 'ERRO! Verifique se os dados inseridos estão corretos!')
+            return HttpResponseRedirect(redirect_url)
+
 #        return redirect("/admin/pagamento/pagamento/")
 
     def response_add(self, request, obj):
         self.calcular(obj)
-        obj.save()
-        redirect_url = request.path
-        messages.success(request, 'Pagamento Adicionado com Sucesso!')
-        return HttpResponseRedirect(redirect_url)
-#        return redirect("/admin/pagamento/pagamento/")
+        try:
+            obj.save()
+            redirect_url = request.path
+            messages.success(request, 'Pagamento Modificado com Sucesso!')
+            return HttpResponseRedirect(redirect_url)
+        except InvalidOperation:
+            redirect_url = request.path
+            messages.error(request, 'ERRO! Verifique se os dados inseridos estão corretos!')
+            return HttpResponseRedirect(redirect_url)
 
     def calcular(self, obj):
         tx_iss = Decimal(0.05)
@@ -109,7 +121,6 @@ class PagamentoAdmin(admin.ModelAdmin):
             obj.valor_irpf = (obj.valor_bruto - (
                         obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss) * aliquota_4 - parc_deduzir_4
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
-
         return (obj)
 
     class Media:
