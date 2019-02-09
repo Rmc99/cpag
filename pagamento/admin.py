@@ -37,8 +37,8 @@ class PagamentoAdmin(admin.ModelAdmin):
         self.calcular(obj)
         try:
             obj.save()
+            messages.success(request, 'Pagamento Adicionado com Sucesso!')
             redirect_url = request.path
-            messages.success(request, 'Pagamento Modificado com Sucesso!')
             return HttpResponseRedirect(redirect_url)
         except InvalidOperation:
             redirect_url = request.path
@@ -133,4 +133,4 @@ class PagamentoAdmin(admin.ModelAdmin):
 
     }
 admin.site.register(Pagamento, PagamentoAdmin)
-## todo reutilizar em ADD o metodo que faz os calculos em CHANGE
+## todo alterar nome de botões no admin e exportar arquivos para csv
