@@ -1,6 +1,5 @@
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
 from .models import Pagamento
 from django.forms import TextInput
 from django.db import models
@@ -23,23 +22,17 @@ class PagamentoAdmin(admin.ModelAdmin):
         self.calcular(obj)
         try:
             obj.save()
-            redirect_url = request.path
-            messages.success(request, 'Pagamento Modificado com Sucesso!')
-            return HttpResponseRedirect(redirect_url)
+            return super().response_change(request, obj)
         except InvalidOperation:
             redirect_url = request.path
             messages.error(request, 'ERRO! Verifique se os dados inseridos estão corretos!')
             return HttpResponseRedirect(redirect_url)
 
-#        return redirect("/admin/pagamento/pagamento/")
-
     def response_add(self, request, obj):
         self.calcular(obj)
         try:
             obj.save()
-            messages.success(request, 'Pagamento Adicionado com Sucesso!')
-            redirect_url = request.path
-            return HttpResponseRedirect(redirect_url)
+            return super().response_add(request, obj)
         except InvalidOperation:
             redirect_url = request.path
             messages.error(request, 'ERRO! Verifique se os dados inseridos estão corretos!')
@@ -132,4 +125,3 @@ class PagamentoAdmin(admin.ModelAdmin):
 
     }
 admin.site.register(Pagamento, PagamentoAdmin)
-## todo alterar nome de botões no admin e exportar arquivos para csv
