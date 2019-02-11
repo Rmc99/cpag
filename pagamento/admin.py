@@ -96,24 +96,35 @@ class PagamentoAdmin(admin.ModelAdmin):
         elif (v_base >= 1903.99 and v_base <= 2826.65):
             obj.valor_irpf = (obj.valor_bruto - (
                         obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_1 - parc_deduzir_1
+            if (obj.valor_irpf <=0):
+                obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
         elif (v_base >= 2826.66 and v_base <= 3751.05):
             obj.valor_irpf = (obj.valor_bruto - (
                         obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_2 - parc_deduzir_2
+            if (obj.valor_irpf <=0):
+                obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
         elif (v_base >= 3751.06 and v_base <= 4664.68):
             obj.valor_irpf = (obj.valor_bruto - (
                         obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_3 - parc_deduzir_3
+            if (obj.valor_irpf <=0):
+                obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
         elif (v_base > 4664.68):
             obj.valor_irpf = (obj.valor_bruto - (
                         obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_4 - parc_deduzir_4
+            if (obj.valor_irpf <=0):
+                obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
         return (obj)
 
     class Media:
-        js = ('js/pagamento/jquery-3.3.1.min.js',)
-        js = ('js/pagamento/jquery.mask.min.js',)
+        js = (
+            'js/pagamento/jquery-3.3.1.min.js',
+            'js/pagamento/jquery.mask.min.js',
+            'js/pagamento/jquery-mymask-pagamento.js',
+        )
 
     formfield_overrides = {
         models.IntegerField: {'widget': TextInput(attrs={'autocomplete': 'off', 'class': 'vIntegerField'})},

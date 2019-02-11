@@ -41,12 +41,12 @@ class Pagamento(models.Model):
     valor_hora = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor da Hora")
     valor_pensao = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Pensão Alimentícia")
     valor_bruto = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor Bruto", default=0)
-    valor_inss = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Previdencia Oficial(INSS)", default=0)
+    valor_inss = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Previdencia Oficial(INSS)", default=0, help_text="Taxa de 11%")
     valor_iss = models.DecimalField(max_digits=10, decimal_places=2, null=False,
-                                              verbose_name="Valor Desconto ISS", default=0)
-    qtd_dependente_irpf = models.IntegerField(null=False, verbose_name="Quantidade de Dependentes de IRPF", default=0)
+                                              verbose_name="Valor Desconto ISS", default=0, help_text="Taxa de 5%")
+    qtd_dependente_irpf = models.IntegerField(null=False, verbose_name="Dependentes (quantidade)", default=0, help_text="O valor da dedução é R$ 189,59 mensais, por dependente." )
     deducao_irpf = models.DecimalField(max_digits=10, decimal_places=2, null=False,
-                                              verbose_name="Total de Dedução IRPF", default=0)
+                                              verbose_name="Total de Deduções", default=0)
     valor_pos_deducao_irpf = models.DecimalField(max_digits=10, decimal_places=2, null=False,
                                               verbose_name="Valor Pós Dedução IRPF", default=0)
     valor_irpf = models.DecimalField(max_digits=10, decimal_places=2, null=False,
@@ -54,7 +54,7 @@ class Pagamento(models.Model):
     valor_liquido = models.DecimalField(max_digits=10, decimal_places=2, null=False,
                                               verbose_name="Valor Líquido", default=0)
     valor_patronal = models.DecimalField(max_digits=10, decimal_places=2, null=False,
-                                              verbose_name="Patronal", default=0)
+                                              verbose_name="Patronal", default=0, help_text="Taxa de 20%")
     dta_criacao = models.DateTimeField(editable=False, auto_now_add=True)
     dta_atualizacao = models.DateTimeField(editable=False, auto_now=True)
 
