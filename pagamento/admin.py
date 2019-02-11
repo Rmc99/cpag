@@ -12,7 +12,7 @@ class PagamentoAdmin(admin.ModelAdmin):
     search_fields = ['ano', 'mes', 'categoria', 'funcao', 'pessoa__nome']
     fieldsets = (
         ('Dados do Pagamento:', {'fields': (('ano', 'mes', 'pessoa'), ('categoria', 'funcao', 'qtd_horas'),
-         ('valor_hora', 'valor_pensao', 'qtd_dependente_irpf'))}),
+         ('valor_hora', 'valor_pensao'), ('qtd_dependente_irpf', 'outras_deducoes'))}),
         ('Calculos:', {'fields': (('valor_bruto', 'valor_inss',
              'valor_iss'), ('deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf'), ('valor_liquido', 'valor_patronal'))}),
     )
@@ -54,19 +54,19 @@ class PagamentoAdmin(admin.ModelAdmin):
 
         # calculo do valor bruto
         obj.valor_bruto = (obj.qtd_horas * obj.valor_hora)
-        # calculo de inss
+        # calculo inss 11%
         obj.valor_inss = (obj.valor_bruto * tx_inss)
-        # calculo de 5% iss
+        # calculo 5% iss
         obj.valor_iss = (obj.valor_bruto * tx_iss)
-
-        # calculo valor base para aplicar aliquota do irpf
-        v_base = (obj.valor_bruto - obj.valor_inss)
-        # calculo patronal
+        # calculo 20% patronal
         obj.valor_patronal = (obj.valor_bruto * tx_patronal)
-        # calculo deducao irpf
-        obj.deducao_irpf = (obj.valor_inss + obj.valor_pensao + (obj.qtd_dependente_irpf * tx_por_dependente));
+        # calculo valor por dependente
+        valor_total_por_dependente = Decimal(obj.qtd_dependente_irpf * tx_por_dependente)
+
+        # calculo deducoes irpf
+        obj.deducao_irpf = (obj.valor_inss + obj.valor_pensao + valor_total_por_dependente + obj.outras_deducoes);
         # calculo pos deducao irpf
-        obj.valor_pos_deducao_irpf = (obj.valor_bruto - obj.valor_inss - obj.valor_pensao - (obj.qtd_dependente_irpf * tx_por_dependente))
+        obj.valor_pos_deducao_irpf = (obj.valor_bruto - obj.valor_inss - obj.valor_pensao - valor_total_por_dependente - obj.outras_deducoes)
 
         # calculos para colaborador/professor interno do ifma/colun
         if (obj.categoria == 1 or obj.categoria == 3):
@@ -78,35 +78,30 @@ class PagamentoAdmin(admin.ModelAdmin):
             obj.valor_pos_deducao_irpf = 0
             obj.valor_patronal = 0
         # isento de irpf
-        elif (v_base <= 1903.98):
+        elif (obj.valor_pos_deducao_irpf <= 1903.98):
             obj.valor_irpf = 0
-            # inclui mas consultar jorge
             obj.deducao_irpf = 0
             obj.valor_irpf = 0
             obj.valor_pos_deducao_irpf = 0
-            obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
+            obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss)
         # aliquota de 7,5%
-        elif (v_base >= 1903.99 and v_base <= 2826.65):
-            obj.valor_irpf = (obj.valor_bruto - (
-                        obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_1 - parc_deduzir_1
+        elif (obj.valor_pos_deducao_irpf >= 1903.99 and obj.valor_pos_deducao_irpf <= 2826.65):
+            obj.valor_irpf = (obj.valor_bruto - valor_total_por_dependente - obj.valor_inss - obj.valor_pensao - obj.outras_deducoes) * aliquota_1 - parc_deduzir_1
             if (obj.valor_irpf <=0):
                 obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
-        elif (v_base >= 2826.66 and v_base <= 3751.05):
-            obj.valor_irpf = (obj.valor_bruto - (
-                        obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_2 - parc_deduzir_2
+        elif (obj.valor_pos_deducao_irpf >= 2826.66 and obj.valor_pos_deducao_irpf <= 3751.05):
+            obj.valor_irpf = (obj.valor_bruto - valor_total_por_dependente - obj.valor_inss - obj.valor_pensao - obj.outras_deducoes) * aliquota_2 - parc_deduzir_2
             if (obj.valor_irpf <=0):
                 obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
-        elif (v_base >= 3751.06 and v_base <= 4664.68):
-            obj.valor_irpf = (obj.valor_bruto - (
-                        obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_3 - parc_deduzir_3
+        elif (obj.valor_pos_deducao_irpf >= 3751.06 and obj.valor_pos_deducao_irpf <= 4664.68):
+            obj.valor_irpf = (obj.valor_bruto - valor_total_por_dependente - obj.valor_inss - obj.valor_pensao - obj.outras_deducoes) * aliquota_3 - parc_deduzir_3
             if (obj.valor_irpf <=0):
                 obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)
-        elif (v_base > 4664.68):
-            obj.valor_irpf = (obj.valor_bruto - (
-                        obj.qtd_dependente_irpf * tx_por_dependente) - obj.valor_inss - obj.valor_pensao) * aliquota_4 - parc_deduzir_4
+        elif (obj.valor_pos_deducao_irpf > 4664.68):
+            obj.valor_irpf = (obj.valor_bruto - valor_total_por_dependente - obj.valor_inss - obj.valor_pensao - obj.outras_deducoes) * aliquota_4 - parc_deduzir_4
             if (obj.valor_irpf <=0):
                 obj.valor_irpf = 0
             obj.valor_liquido = (obj.valor_bruto - obj.valor_inss - obj.valor_iss - obj.valor_irpf)

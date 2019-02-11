@@ -17,8 +17,8 @@ class Pessoa(models.Model):
         ("633", "633-Banco Rendimento S.A."),
     )
     nome = models.CharField(max_length=150, null=False, verbose_name="Nome Completo")
-    email = models.EmailField(max_length=150, null=True, verbose_name="E-Mail")
-    telefone = models.CharField(max_length=16, null=True, verbose_name="Telefone", help_text="Ex: 00-00000-0000")
+    email = models.EmailField(max_length=150, verbose_name="E-Mail")
+    telefone = models.CharField(max_length=16, verbose_name="Telefone", help_text="Ex: 00-00000-0000")
     cpf = models.CharField(max_length=14, null=False, verbose_name="CPF", unique=True)
     pis = models.CharField(max_length=25, null=False, verbose_name="PIS")
     num_conta = models.CharField(max_length=30, null=False, verbose_name="Conta")
