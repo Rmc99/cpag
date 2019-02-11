@@ -39,14 +39,14 @@ class Pagamento(models.Model):
     funcao = models.SmallIntegerField(null=False, choices=FUNCAO_CHOICES, verbose_name="Função")
     qtd_horas = models.SmallIntegerField(null=False, verbose_name="Quantidade de Horas no Mês")
     valor_hora = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor da Hora")
-    valor_pensao = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor da Pensão")
+    valor_pensao = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Pensão Alimentícia")
     valor_bruto = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor Bruto", default=0)
-    valor_inss = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor Desconto INSS", default=0)
+    valor_inss = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Previdencia Oficial(INSS)", default=0)
     valor_iss = models.DecimalField(max_digits=10, decimal_places=2, null=False,
                                               verbose_name="Valor Desconto ISS", default=0)
     qtd_dependente_irpf = models.IntegerField(null=False, verbose_name="Quantidade de Dependentes de IRPF", default=0)
     deducao_irpf = models.DecimalField(max_digits=10, decimal_places=2, null=False,
-                                              verbose_name="Dedução IRPF", default=0)
+                                              verbose_name="Total de Dedução IRPF", default=0)
     valor_pos_deducao_irpf = models.DecimalField(max_digits=10, decimal_places=2, null=False,
                                               verbose_name="Valor Pós Dedução IRPF", default=0)
     valor_irpf = models.DecimalField(max_digits=10, decimal_places=2, null=False,
