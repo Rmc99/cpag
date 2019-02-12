@@ -17,6 +17,8 @@ class PagamentoAdmin(admin.ModelAdmin):
              'valor_iss'), ('deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf'), ('valor_liquido', 'valor_patronal'))}),
     )
     list_filter = ('ano', 'mes', 'categoria', 'funcao', 'pessoa__nome')
+#    readonly_fields = ('valor_bruto', 'valor_inss', 'valor_iss', 'deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf',
+#                       'valor_liquido', 'valor_patronal')
 
     def response_change(self, request, obj):
         self.calcular(obj)
