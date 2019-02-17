@@ -6,7 +6,6 @@ from django.forms import TextInput
 from django.db import models
 from decimal import Decimal, InvalidOperation
 
-
 class PagamentoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['pessoa']
     list_display = ('ano', 'mes', 'pessoa', 'categoria', 'funcao', 'valor_bruto', 'valor_irpf', 'valor_liquido')
@@ -33,7 +32,6 @@ class PagamentoAdmin(admin.ModelAdmin):
             row = writer.writerow([getattr(obj, field) for field in field_names])
         return response
     export_as_csv.short_description = "Exportar Selecionados"
-
 
     def response_change(self, request, obj):
         self.calcular(obj)
