@@ -1,5 +1,6 @@
+import csv
 from django.contrib import admin, messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from .models import Pagamento
 from django.forms import TextInput
 from django.db import models
@@ -19,6 +20,20 @@ class PagamentoAdmin(admin.ModelAdmin):
     list_filter = ('ano', 'mes', 'categoria', 'funcao', 'pessoa__nome')
 #    readonly_fields = ('valor_bruto', 'valor_inss', 'valor_iss', 'deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf',
 #                       'valor_liquido', 'valor_patronal')
+
+    actions = ["export_as_csv"]
+    def export_as_csv(self, request, queryset):
+        meta = self.model._meta
+        field_names = [field.name for field in meta.fields]
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        writer = csv.writer(response)
+        writer.writerow(field_names)
+        for obj in queryset:
+            row = writer.writerow([getattr(obj, field) for field in field_names])
+        return response
+    export_as_csv.short_description = "Exportar Selecionados"
+
 
     def response_change(self, request, obj):
         self.calcular(obj)
