@@ -3,7 +3,7 @@ from .models import Pessoa
 
 class PessoaAdmin(admin.ModelAdmin):
     search_fields = ('nome', 'cpf')
-    #list_display = ('nome', 'email', 'cpf', 'pis', 'num_conta', 'num_agencia', 'num_operacao', 'num_banco')
+    list_display = ('nome', 'email', 'telefone', 'cpf', 'pis', 'num_conta', 'num_agencia', 'num_operacao', 'num_banco')
     #fields = ('nome', 'email', 'cpf', 'pis', 'num_conta', 'num_agencia', 'num_operacao', 'num_banco')
     fieldsets = (
         ('Dados Pessoais:', {'fields': (('nome', 'email'), ('telefone', 'cpf'), 'pis')}),
