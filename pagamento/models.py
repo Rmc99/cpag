@@ -39,7 +39,7 @@ class Pagamento(models.Model):
     funcao = models.SmallIntegerField(null=False, choices=FUNCAO_CHOICES, verbose_name="Função")
     qtd_horas = models.SmallIntegerField(null=False, verbose_name="Quantidade de Horas no Mês")
     valor_hora = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor da Hora")
-    valor_pensao = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Pensão Alimentícia")
+    valor_pensao = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Pensão Alimentícia", default=0)
     valor_bruto = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Valor Bruto", default=0)
     valor_inss = models.DecimalField(max_digits=10, decimal_places=2, null=False, verbose_name="Previdencia Oficial(INSS)", default=0, help_text="Desconto de 11%")
     valor_iss = models.DecimalField(max_digits=10, decimal_places=2, null=False,
