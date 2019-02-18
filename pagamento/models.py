@@ -1,5 +1,5 @@
 from django.db import models
-from pessoa.models import Pessoa
+from cpag.pessoa.models import Pessoa
 
 class Pagamento(models.Model):
     SERVIDOR_CHOICE = (
