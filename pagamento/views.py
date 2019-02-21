@@ -7,10 +7,9 @@ from .models import *
 def gerar_pdf(request):
     """Generate pdf."""
     # Model data
-    obj = Pagamento.objects.all().order_by('ano')
-
+    obj = Pagamento.objects.all().select_related('pessoa').all()
     # Rendered
-    html_string = render_to_string('pagamento/pdf_template.html', {'obj': obj})
+    html_string = render_to_string('pagamento/pdf_template.html', {'lista': obj})
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/{}.pdf'.format(obj));
 

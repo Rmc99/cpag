@@ -1,7 +1,7 @@
 import csv
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Pagamento
+from .models import *
 from django.forms import TextInput
 from django.db import models
 from decimal import Decimal, InvalidOperation
@@ -20,8 +20,9 @@ class PagamentoAdmin(admin.ModelAdmin):
 #    readonly_fields = ('valor_bruto', 'valor_inss', 'valor_iss', 'deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf',
 #                       'valor_liquido', 'valor_patronal')
 
-    def get_cpf(self, obj):
-        return obj.pessoa.cpf
+# exibir o cpf no list_display
+#    def get_cpf(self, obj):
+#        return obj.pessoa.cpf
 
     actions = ["export_as_csv"]
     def export_as_csv(self, request, queryset):
