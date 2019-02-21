@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h1>Informe o ano do pagamento</h1>
+    <form method="POST">
+        {% csrf_token %}
+        Ano: <input type="text" name="ano"><br>
+        {% if lista.ano == ano %}
+            existe esse ano
+        {% else %}
+            <h1>Esse ano não está cadastrado</h1>
+        {% endif %}
+        <input type="submit">
+    </form>
+{% endblock %}
