@@ -3,14 +3,10 @@
 
 {% block content %}
     <h1>Informe o ano do pagamento</h1>
-    <form method="POST">
-        {% csrf_token %}
-        Ano: <input type="text" name="ano"><br>
-        {% if lista.ano == ano %}
-            existe esse ano
-        {% else %}
-            <h1>Esse ano não está cadastrado</h1>
-        {% endif %}
+    <form role="search" action="{% url 'pagamento:gerar_pdf' %}" method="GET">
+        <div>
+            <input name="q" type="text" placeholder="Pesquisar..."/>
+        </div>
         <input type="submit">
     </form>
 {% endblock %}
