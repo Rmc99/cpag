@@ -1,6 +1,8 @@
 import csv
+import io
+from django.http import StreamingHttpResponse
 from django.contrib import admin, messages
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from .models import *
 from django.forms import TextInput
 from django.db import models
@@ -17,25 +19,47 @@ class PagamentoAdmin(admin.ModelAdmin):
              'valor_iss'), ('deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf'), ('valor_liquido', 'valor_patronal'))}),
     )
     list_filter = ('ano', 'mes', 'categoria', 'funcao', 'pessoa__nome')
+
 #    readonly_fields = ('valor_bruto', 'valor_inss', 'valor_iss', 'deducao_irpf', 'valor_pos_deducao_irpf', 'valor_irpf',
 #                       'valor_liquido', 'valor_patronal')
+
+    actions = ["export_as_csv"]
+
+    def export_as_csv(self, request, queryset):
+        model = self.model
+        output = io.StringIO()
+
+        model_fields = [field.name for field in model._meta.fields]
+        extra_fields = ['email', 'telefone', 'cpf', 'pis', 'num_conta', 'num_agencia', 'num_operacao', 'num_banco']
+        fieldnames = model_fields + extra_fields
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for obj in queryset:
+            obj_values = {field: getattr(obj, field) for field in model_fields}
+            obj_values['email'] = obj.self.pessoa.email
+            obj_values['telefone'] = obj.self.pessoa.telefone
+            obj_values['cpf'] = obj.self.pessoa.cpf
+            obj_values['pis'] = obj.self.pessoa.pis
+            obj_values['num_conta'] = obj.pessoa.num_conta
+            obj_values['num_agencia'] = obj.pessoa.num_agencia
+            obj_values['num_operacao'] = obj.pessoa.num_operacao
+            obj_values['num_banco'] = obj.pessoa.num_banco
+
+            writer.writerow(obj_values)
+
+        response = StreamingHttpResponse(output.getvalue(),
+                                         content_type='text/csv')
+        disposition = 'attachment; filename="relatorio_pagamento.csv"'
+        response['Content-Disposition'] = disposition
+        response['mimetype'] = "text/csv"
+        return response
+    export_as_csv.short_description = "Exportar Selecionados"
 
 # exibir o cpf no list_display
 #    def get_cpf(self, obj):
 #        return obj.pessoa.cpf
-
-    actions = ["export_as_csv"]
-    def export_as_csv(self, request, queryset):
-        meta = self.model._meta
-        field_names = [field.name for field in meta.fields]
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
-        writer = csv.writer(response)
-        writer.writerow(field_names)
-        for obj in queryset:
-            row = writer.writerow([getattr(obj, field) for field in field_names])
-        return response
-    export_as_csv.short_description = "Exportar Selecionados"
+#   get_cpf.short_description = 'CPF'
 
     def response_change(self, request, obj):
         self.calcular(obj)
