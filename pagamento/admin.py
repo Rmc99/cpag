@@ -37,10 +37,10 @@ class PagamentoAdmin(admin.ModelAdmin):
 
         for obj in queryset:
             obj_values = {field: getattr(obj, field) for field in model_fields}
-            obj_values['email'] = obj.self.pessoa.email
-            obj_values['telefone'] = obj.self.pessoa.telefone
-            obj_values['cpf'] = obj.self.pessoa.cpf
-            obj_values['pis'] = obj.self.pessoa.pis
+            obj_values['email'] = obj.pessoa.email
+            obj_values['telefone'] = obj.pessoa.telefone
+            obj_values['cpf'] = obj.pessoa.cpf
+            obj_values['pis'] = obj.pessoa.pis
             obj_values['num_conta'] = obj.pessoa.num_conta
             obj_values['num_agencia'] = obj.pessoa.num_agencia
             obj_values['num_operacao'] = obj.pessoa.num_operacao
